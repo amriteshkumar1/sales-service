@@ -30,6 +30,22 @@ npm install babel-loader
 npm install babel-preset-react
 npm install babel-preset-es2015
 -------------------------------------
+
+$ npm install webpack --save-dev
+
+Install webpack web server to run a local server:
+$ npm install webpack-dev-server --save-dev
+
+Install React, React DOM, and CSS animation add-ons: 
+$ npm install react react-dom react-addons-css-transition-group --save
+
+Install Babel to use JSX and ES6. We’re going to write with ES6 (ES 2015), which is next-generation JavaScript, with the help of Babel, a compiler: 
+$ sudo npm install babel-loader babel-core babel-preset-es2015 babel-preset-react --save
+
+Install PubNub for real-time communication: 
+$ npm install pubnub --save
+
+http://localhost:8080/webpack-dev-server/, 
 let's create several files that we need. You can add it manually or you can use command prompt.
 ------------------------------------------------------------------------------------------------
 in package.json
