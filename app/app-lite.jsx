@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import StickieList from './stickieList';
-import UserList from './userList';
 import 'pubnub';
 
 var username = (localStorage.getItem('username')) ? (localStorage.getItem('username')) : window.prompt('Your name');
@@ -35,8 +34,7 @@ class CollabStickies extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stickieList: [],
-      userList: []
+      stickieList: []
     }
   }
 
@@ -45,22 +43,12 @@ class CollabStickies extends React.Component {
       channel: channel,
       restore: true,
       connect: () => this.connect(),
-      message: (m) => this.success(m),
-      presence: (m) => this.presenceChanged(m)
-    });
-  }
-
-   // set state with the user data and send it to PubNub
-  componentDidMount() {
-    var userdata = {username: this.props.username, color: this.props.color, timestamp: Date.now()};
-    pubnub.state({
-      channel: channel,
-      uuid: this.props.username,
-      state: userdata
+      message: (m) => this.success(m)
     });
   }
 
   // grab data from PubNub History API when PubNub is connected for the first time
+  // When you are using the History API, you need to turn on the feature in Application add-ons at admin.pubnub.com
   connect() { 
     pubnub.history({
       channel: channel,
@@ -81,44 +69,9 @@ class CollabStickies extends React.Component {
     this.setState({stickieList: newList});
   }
 
-  // Watch if metadata is attached when m.action == 'state-change' or 'timeout'. 
-  // Also 'join' at the first time after a user enter a name
-  presenceChanged(m) {
-    if(m.data) { 
-      console.log(m);
-      pubnub.here_now({
-        channel: channel,
-        callback: (m) => this.getUserList(m)
-      });
-    }
-  }
-
-  getUserList(m) {
-    this.state.userList.length = 0;
-
-    var i = 0;
-    for (var u of m.uuids) { // ES6 for-of loop
-      
-      pubnub.state({ //get state
-        channel: channel,
-        uuid: u,
-        callback: (s) => {
-          if(!s.username) return; // To ignore the debug console
-          
-          let newList = this.state.userList.concat({username: s.username, color: s.color, timestamp: s.timestamp});
-          
-          if(i == m.uuids.length)
-          this.setState({userList: newList});
-        }
-      });
-      i++;
-    }
-  }
-
   render() {
     return (
       <div>
-        <UserList userList={this.state.userList} />
         <StickieWritable username={this.props.username} color={this.props.color} />
         <StickieList stickieList={this.state.stickieList} />
       </div>
