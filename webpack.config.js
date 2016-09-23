@@ -3,7 +3,7 @@ var config = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-   entry: './app/app.jsx',
+   entry: './app/notes/app.jsx',
    output: {path: './dist', 
             filename: 'bundle.js'},
       watch: true,      

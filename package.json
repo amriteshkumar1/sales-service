@@ -1,7 +1,7 @@
 {
   "name": "sales-service",
   "version": "1.0.0",
-  "description": "A web Appliation for sales and service ",
+  "description": "A web Appliation for sales and service  And Stckie Notes",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --hot"
